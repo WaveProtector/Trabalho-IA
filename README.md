@@ -1,7 +1,7 @@
 Trabalho IIA
 
 ## Falta fazer (essencial) ##
-- Implementar jogadores (acho que apenas temos de fazer as heurísticas do nosso e do belarmino)
+- Implementar jogadores (falta fazer a heurística do nosso jogador)
 - Fazer o relatório
 
 ## Caso tenhamos tempo(não é necessário) ##
