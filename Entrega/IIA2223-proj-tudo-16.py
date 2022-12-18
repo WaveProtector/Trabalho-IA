@@ -4,7 +4,6 @@ João Assis - fc56325
 Marina Novaes - fc55942
 Ricardo Mateus - fc56366
 '''
-
 from copy import *
 from random import *
 from jogos import *
@@ -12,6 +11,7 @@ from jogar import *
 from utils import *
 import string
 import random
+import copy
 
 from collections import namedtuple
 
@@ -21,6 +21,7 @@ class EstadoBreakthru(stateBreakthru):
     
     def __init__(self, to_move=1, n=8):
         self.board = [['.' for i in range(n)] for i in range(n)]
+        #self.terminou = self.verificar_terminou()
         for i in range(2):
             for j in range(8):
                 self.board[i][j] = 'B'
@@ -104,20 +105,20 @@ class JogoBT_16(Game):
 
     def result(self, state, move):
         if state.to_move == 1:
+            novo_estado = state._replace(to_move=2)
+            novo_estado.board = copy.deepcopy(state.board)
             index_start = state.move_convert(move[0:2])
             new_index = state.move_convert(move[3:5])
-            state.board[7 - index_start[1]][index_start[0]] = '.'
-            state.board[7 - new_index[1]][new_index[0]] = 'W'
-            novo_estado = state._replace(to_move=2)
-            novo_estado.board = state.board.copy()
+            novo_estado.board[7 - index_start[1]][index_start[0]] = '.'
+            novo_estado.board[7 - new_index[1]][new_index[0]] = 'W'
             return novo_estado
         else:
+            novo_estado = state._replace(to_move=1)
+            novo_estado.board = copy.deepcopy(state.board)
             index_start = state.move_convert(move[0:2])
             new_index = state.move_convert(move[3:5])
-            state.board[7 - index_start[1]][index_start[0]] = '.'
-            state.board[7 - new_index[1]][new_index[0]] = 'B'
-            novo_estado = state._replace(to_move=1)
-            novo_estado.board = state.board.copy()
+            novo_estado.board[7 - index_start[1]][index_start[0]] = '.'
+            novo_estado.board[7 - new_index[1]][new_index[0]] = 'B'
             return novo_estado
 
     def utility(self, state, player):
@@ -178,7 +179,7 @@ def func_simples1(game, state):
 
 def func_simples2(game, state):
     moves = game.actions(state)
-    return moves[len(moves) - 1] #faz sempre o último move
+    return moves[len(moves) - 1] #fazsempre o último move
 
 def func_aval_player2(estado, jogador): #uma heurística defensiva
     count = 0
